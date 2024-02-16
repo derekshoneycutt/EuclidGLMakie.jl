@@ -330,6 +330,13 @@ function draw(circle::EuclidCircle2f)
 end
 
 function draw(circle::EuclidCircle3f)
+    function vector_angles(vector::Point3f)
+        θ = acos(vector[3] / norm(vector))
+        θ = (vector[2] >= 0 ? 1 : -1) * (θ == 0f0 && vector[1] < 0 ? π : θ)
+        ϕ = atan(vector[2], vector[1])
+
+        (θ, ϕ)
+    end
     function get_circ_angles(source::Point3f, target::Point3f)
         v = target - source
         θ = sign(v[2]) * acos(v[1] / norm(Point2f(v)))
