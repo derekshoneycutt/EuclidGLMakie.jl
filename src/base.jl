@@ -5,11 +5,11 @@ using GeometryBasics
 using LinearAlgebra
 using Colors
 using Observables
-using ReusePatterns
 
 using GLMakie
 using LaTeXStrings
 using Latexify
+using Base64
 
 using Euclid
 
