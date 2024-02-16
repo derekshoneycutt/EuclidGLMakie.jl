@@ -23,7 +23,7 @@ Sets up a new chart space for drawing euclid diagrams
 - `bottom_label`: The label to print at the bottom of the image
 """
 function euclid_chart(; title::String="", xlims=(-1,1), ylims=(-1,1), bottom_label="https://derekshoneycutt.github.io/Euclid/")
-    set_theme!(theme_dark())
+    set_theme!(theme_dark(), textcolor=:gray20)
     f = Figure()
     ax = euclid_axis(f[1,1], title=title)
     if xlims[1] != 0 || xlims[2] != 0
@@ -59,7 +59,7 @@ function euclid_chart3(;
         title::String="", xlims=(-1,1), ylims=(-1,1), zlims=(-1,1),
         azimuth::Float32=1.275f0π, elevation::Float32=π/8f0,
         bottom_label="https://derekshoneycutt.github.io/Euclid/")
-    set_theme!(theme_dark())
+    set_theme!(theme_dark(), textcolor=:gray20)
     f = Figure()
     ax = euclid_axis3(f[1,1], title=title, azimuth=azimuth, elevation=elevation)
     if xlims[1] != 0 || xlims[2] != 0
