@@ -99,7 +99,7 @@ function draw(surface::EuclidSurface2f)
 end
 function draw(surface::EuclidSurface3f)
     points = @lift([p.definition for p in ($(surface.data)).points])
-    pfaces = @lift(faces(Polygon(Point2f0.($points))))
+    pfaces = @lift(faces(Polygon(Point2f.($points))))
     drawmesh = @lift(normal_mesh($points, $pfaces))
     color =
         @lift([opacify(($(surface.data)).color, ($(surface.data)).opacity)
@@ -170,10 +170,10 @@ function draw(angle::EuclidAngle2f)
         draw_at, center::Point2f)
 
         vcat([center], isapprox(θ, π/2, atol=0.0001) && !larger ?
-            [Point2f0([cos(θ_start); sin(θ_start)]*√(((draw_at)^2)/2) + center),
-                Point2f0([cos(θ_start+π/4); sin(θ_start+π/4)]*draw_at + center),
-                Point2f0([cos(θ_end); sin(θ_end)]*√(((draw_at)^2)/2) + center)] :
-            [Point2f0([cos(t); sin(t)]*draw_at + center) for t in θ_start:(π/180):θ_end])
+            [Point2f([cos(θ_start); sin(θ_start)]*√(((draw_at)^2)/2) + center),
+                Point2f([cos(θ_start+π/4); sin(θ_start+π/4)]*draw_at + center),
+                Point2f([cos(θ_end); sin(θ_end)]*√(((draw_at)^2)/2) + center)] :
+            [Point2f([cos(t); sin(t)]*draw_at + center) for t in θ_start:(π/180):θ_end])
     end
 
     vecA = @lift($(angle.data).vectorA)
@@ -213,19 +213,19 @@ function draw(angle::EuclidAngle3f)
         if iters == 2
             online_r = √((r^2)/2)
             return [
-                Point3f0(center + (normalize(start) * online_r)),
-                Point3f0(center + (normalize(start + (nvec * di)) * r)),
-                Point3f0(center + (normalize(final) * online_r))
+                Point3f(center + (normalize(start) * online_r)),
+                Point3f(center + (normalize(start + (nvec * di)) * r)),
+                Point3f(center + (normalize(final) * online_r))
             ]
         else
             return [
-                Point3f0(center + (normalize((start + (nvec * (di * i)))) * r))
+                Point3f(center + (normalize((start + (nvec * (di * i)))) * r))
                 for i in 0:iters
             ]
         end
     end
-    function get_triangledface1(center::Point3f0, vecA::Point3f0, vecB::Point3f0,
-        angle_perp_vect::Point3f0, width::Float32,
+    function get_triangledface1(center::Point3f, vecA::Point3f, vecB::Point3f,
+        angle_perp_vect::Point3f, width::Float32,
         iters::Int, radius::Float32)
 
         use_center = center + (angle_perp_vect * width)
@@ -318,7 +318,7 @@ function draw(circle::EuclidCircle2f)
     color = @lift(opacify(($(circle.data)).color, ($(circle.data)).opacity))
 
     points = @lift([
-        Point2f0($radius * cos(θ) + ($center)[1], $radius * sin(θ) + ($center)[2])
+        Point2f($radius * cos(θ) + ($center)[1], $radius * sin(θ) + ($center)[2])
         for θ in $startθ:(2π/60):$endθ
     ])
 
@@ -437,7 +437,7 @@ function draw(circle::EuclidCircle3f)
         *[cos($ϕ) 0 sin($ϕ); 0 1 0; -sin($ϕ) 0 cos($ϕ)]
     )
     draw_points = @lift([
-        Point3f0($T * [cos(a) * $radius, sin(a) * $radius, 0] + $center)
+        Point3f($T * [cos(a) * $radius, sin(a) * $radius, 0] + $center)
         for a in $startθ:π/circ_sects:$endθ
     ])
 
